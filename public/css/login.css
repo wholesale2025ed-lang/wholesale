@@ -1,0 +1,211 @@
+:root{
+  --bg1:#0ea5e9;      /* azul tecnológico */
+  --bg2:#8b5cf6;      /* morado neón */
+  --ink:#e2e8f0;
+  --ink-d:#94a3b8;
+  --card:#0b1220cc;   /* vidrio */
+  --line:#1f2a44;
+  --accent:#22d3ee;   /* cian */
+  --success:#22c55e;
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+               Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color:var(--ink);
+  background:#0b1220;
+  overflow-x:hidden;
+}
+
+/* Fondo gradiente animado */
+.bg-animate{
+  position:fixed; inset:0; z-index:-1;
+  background:
+    radial-gradient(45rem 45rem at -10% -10%, #0ea5e922 0, transparent 60%),
+    radial-gradient(40rem 40rem at 110% 110%, #8b5cf622 0, transparent 60%),
+    linear-gradient(120deg, var(--bg1), var(--bg2));
+  filter:saturate(1.2) contrast(1.05);
+  background-size:200% 200%;
+  animation:shift 14s ease-in-out infinite;
+}
+@keyframes shift{
+  0%{ background-position: 0% 50% }
+  50%{ background-position: 100% 50% }
+  100%{ background-position: 0% 50% }
+}
+
+/* Layout */
+.login-wrap{
+  min-height:100dvh;
+  display:grid;
+  grid-template-columns: 1fr min(420px, 92vw);
+  gap: clamp(24px, 5vw, 64px);
+  align-items:center;
+  padding: clamp(20px, 5vw, 48px);
+}
+
+/* Marca */
+.brand{
+  align-self:center;
+  justify-self:center;
+  text-align:center;
+}
+.brand__logo{
+  width: clamp(300px, 12vw, 108px);
+  height: auto;
+  filter: drop-shadow(0 10px 24px #0006);
+  user-select:none;
+}
+.brand__name{
+  margin:.4rem 0 0;
+  font-size:clamp(28px, 4vw, 40px);
+  letter-spacing:.5px;
+}
+.brand__name span{ color:var(--accent) }
+.brand__tag{
+  color:white;
+  margin:.25rem 0 0;
+}
+
+/* Tarjeta */
+.card{
+  background:var(--card);
+  border:1px solid #ffffff14;
+  border-radius:18px;
+  padding: clamp(20px, 4vw, 28px);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 10px 30px #0008,
+    inset 0 1px 0 #ffffff12;
+}
+.card__title{
+  margin:0 0 14px;
+  font-size: clamp(20px, 2.6vw, 24px);
+}
+
+/* Formulario */
+.form{ display:grid; gap:14px }
+.field{ display:grid; gap:8px }
+.field span{ color:var(--ink-d); font-size:.9rem }
+input{
+  width:100%;
+  height:46px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#0b1220;
+  color:var(--ink);
+  padding:0 14px;
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+input::placeholder{ color:#64748b99 }
+input:focus{
+  border-color:#3b82f6;
+  box-shadow:0 0 0 3px #3b82f633;
+}
+
+/* Password con botón ojo */
+.password{ position:relative }
+.toggle-pass{
+  position:absolute; right:8px; top:50%; translate:0 -50%;
+  border:0; background:transparent; color:#93c5fd; cursor:pointer;
+  padding:6px 8px; font-size:16px; border-radius:8px;
+}
+.toggle-pass:hover{ color:#bfdbfe }
+
+.btn{
+  height:48px;
+  border-radius:12px;
+  border:0;
+  font-weight:700;
+  letter-spacing:.3px;
+  color:#0b1220;
+  background: linear-gradient(90deg, var(--bg1), var(--bg2));
+  box-shadow: 0 10px 24px #0009, 0 0 0 1px #ffffff10 inset;
+  cursor:pointer;
+  transition: transform .06s ease, filter .2s ease;
+}
+.btn:hover{ filter:brightness(1.05) }
+.btn:active{ transform: translateY(1px) }
+
+.links{ text-align:center; margin-top:6px }
+.links a{ color:var(--ink-d); text-decoration:none }
+.links a:hover{ color:var(--ink) }
+
+/* Toast */
+#toast{
+  position:fixed; left:50%; bottom:22px; translate:-50% 0;
+  background:#121a2bcc;
+  border:1px solid #ffffff1a;
+  color:var(--ink);
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:.95rem;
+  backdrop-filter: blur(8px);
+  box-shadow:0 10px 24px #0009;
+  opacity:0; pointer-events:none; transition:opacity .25s;
+}
+#toast.show{ opacity:1 }
+
+/* Splash de bienvenida (3s al cargar) */
+#welcomeOverlay{
+  position:fixed; inset:0; display:grid; place-items:center;
+  background:#0b1220aa;
+  backdrop-filter: blur(3px);
+  opacity:1;                   /* visible al cargar */
+  transition: opacity .35s ease;
+  z-index: 50;
+}
+#welcomeOverlay.hidden{
+  opacity:0;                   /* oculto tras 3s */
+  pointer-events:none;
+}
+.welcome-card{
+  background:#0b1220;
+  border:1px solid #ffffff22;
+  border-radius:16px;
+  padding:28px 24px;
+  text-align:center;
+  min-width: min(92vw, 360px);
+  box-shadow:0 18px 40px #000a;
+}
+.welcome-badge{
+  width:54px; height:54px; line-height:54px;
+  margin:0 auto 10px;
+  border-radius:50%;
+  background: linear-gradient(135deg, var(--success), #16a34a);
+  color:white; font-weight:800; text-align:center;
+  box-shadow:0 10px 24px #16a34a55;
+}
+
+/* --- MÓVIL: que no quede tan abajo --- */
+@media (max-width: 860px){
+  .login-wrap{
+    grid-template-columns: 1fr;
+    /* centra el contenido en el viewport */
+    place-content: center;      /* eje vertical */
+    justify-items: center;      /* eje horizontal */
+    gap: 16px;                  /* menos separación */
+    padding: 16px;              /* menos padding */
+    min-height: 100dvh;         /* asegura alto de pantalla */
+  }
+
+  .brand{
+    order: -1;                  /* logo arriba */
+    margin-bottom: 6px;
+  }
+
+  .brand__logo{ width: 84px }
+  .card{ width: min(520px, 92vw); }
+}
+
+/* Si la pantalla es muy baja de alto, sube un poco más la tarjeta */
+@media (max-height: 700px){
+  .login-wrap{
+    place-content: start;       /* empieza más arriba */
+    padding-top: 20px;
+  }
+}

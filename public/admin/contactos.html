@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin • Contactos</title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <style>
+        html, body { overflow-x: hidden; }
+    .main { overflow-x: auto; }
+    .main, .sidebar, .card, .surface { min-width: 0; max-width: 100%; }
+        @media (max-width: 1120px){
+      .main{ padding: clamp(14px, 3vw, 20px); }
+      .grid-2{ grid-template-columns: 1fr; }
+    }
+    @media (max-height: 640px){
+      .card{ padding: 16px; }
+    }
+  </style>
+</head>
+<body class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">👥</div>
+      <div class="brand-name">Módulo de Contactos</div>
+    </div>
+    <nav class="menu">
+      <a href="/admin/dashboard.html"><span class="icon">📊</span>Dashboard</a>
+      <a href="/admin/productos.html"><span class="icon">🛒</span>Productos</a>
+      <a href="/admin/contactos.html" class="active"><span class="icon">👥</span>Contactos</a>
+      <a href="/admin/ajustes.html"><span class="icon">⚙️</span>Ajustes</a>
+    </nav>
+    <div class="sidebar-foot">
+      <a class="btn btn-secondary btn-full" href="/" target="_blank">🏠 Visitar mi tienda</a>
+      <button id="logoutBtn" class="btn btn-outline btn-full">🔒 Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="grid-1">
+      <!-- Formulario -->
+      <form id="contactForm" class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <h3 id="contactFormTitle">Agregar contacto</h3>
+          <button type="button" id="contactFormReset" class="btn btn-outline small">Limpiar</button>
+        </div>
+
+        <input type="hidden" id="contactId"/>
+
+        <!-- Fila 1 -->
+        <div class="grid-3">
+          <div>
+            <label class="label">WhatsApp</label>
+            <input class="input" id="cWhatsapp" placeholder="+502 ..." />
+          </div>
+          <div>
+            <label class="label">Teléfono</label>
+            <input class="input" id="cPhone" />
+          </div>
+          <div>
+            <label class="label">Email</label>
+            <input class="input" id="cEmail" type="email" />
+          </div>
+        </div>
+
+        <!-- Fila 2 -->
+        <div class="grid-3">
+          <div>
+            <label class="label">Facebook</label>
+            <input class="input" id="cFacebook" placeholder="https://facebook.com/tu_pagina" />
+          </div>
+          <div>
+            <label class="label">Instagram</label>
+            <input class="input" id="cInstagram" placeholder="https://instagram.com/tu_usuario" />
+          </div>
+          <div>
+            <label class="label">TikTok</label>
+            <!-- ID EXACTO QUE USA EL JS -->
+            <input class="input" id="cTikTok" placeholder="https://www.tiktok.com/@tu_usuario" />
+          </div>
+        </div>
+
+        <!-- Fila 3 -->
+        <div class="grid-2">
+          <div>
+            <label class="label">Dirección</label>
+            <input class="input" id="cAddress" placeholder="Calle, zona, ciudad..." />
+          </div>
+          <div>
+            <label class="label">Visible público</label>
+            <select class="input" id="cVisible">
+              <option value="1">Sí</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;margin-top:14px">
+          <button class="btn" type="submit" id="contactSubmit">Guardar contacto</button>
+        </div>
+      </form>
+
+      <!-- Tabla -->
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>WhatsApp</th>
+                <th>Tel</th>
+                <th>Email</th>
+                <th>Facebook</th>
+                <th>Instagram</th>
+                <th>TikTok</th>
+                <th>Dirección</th>
+                <th>Visible</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="contactTbody"></tbody>
+          </table>
+        </div>
+        <div id="contactEmpty" style="color:var(--muted);padding:10px" hidden>No hay contactos…</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/admin-common.js"></script>
+  <script src="/js/admin-contactos.js"></script>
+</body>
+</html>

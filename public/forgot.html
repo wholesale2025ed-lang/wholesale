@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Recuperar contraseña</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/forgot.css">
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="bg-animate"></div>
+
+  <main class="wrap">
+    <!-- CUADRO CENTRADO -->
+    <section class="center-box" role="region" aria-label="Recuperar contraseña">
+      <h1 class="page-title">Recuperar contraseña</h1>
+
+      <div class="card">
+        <form id="form" class="form" autocomplete="off">
+          <label class="field">
+            <span class="field__label">¿Cuál es su correo con el que inicia sesión?</span>
+            <div class="input-wrap">
+              <span class="input-icon">👍</span>
+              <input id="email" type="email" placeholder="Ingrese su correo, Jefe" required>
+            </div>
+          </label>
+
+          <button id="send" class="btn" type="submit">Enviar enlace</button>
+
+          <div class="links">
+            <a href="/login">⬅️ Volver al inicio de sesión</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form  = document.getElementById('form');
+    const email = document.getElementById('email');
+    const btn   = document.getElementById('send');
+
+    async function submitForgot(){
+      const value = (email?.value || '').trim();
+      if(!value){ email?.focus(); return; }
+
+      try{
+        btn.disabled = true;
+        btn.textContent = 'Enviando…';
+        await fetch('/api/auth/forgot', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ email: value })
+        });
+        alert('Si tiene acceso al correo, le enviamos un enlace para restablecer su contraseña.');
+        location.href = '/login';
+      }catch(e){
+        alert('No se pudo enviar el enlace. Intenta más tarde.');
+      }finally{
+        btn.disabled = false;
+        btn.textContent = 'Enviar enlace';
+      }
+    }
+
+    form?.addEventListener('submit', (e)=>{ e.preventDefault(); submitForgot(); });
+  </script>
+</body>
+</html>

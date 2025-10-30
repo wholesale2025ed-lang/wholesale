@@ -1,0 +1,249 @@
+/* ===== public/css/public.css ===== */
+:root{
+  /* Tema claro + tech */
+  --bg-grad-1:#59aeef;
+  --bg-grad-2:#003cff;
+  --ink:#0f1720;
+  --muted:#516274;
+
+  --card:#f7fbff;
+  --card-2:#f1f7fb;
+  --line:rgba(0,0,0,.08);
+
+  --accent:#00c3ff;         /* cyan */
+  --accent-2:#00e39b;       /* teal */
+  --brand:#00d2c6;
+
+  --chip:#eaf5ff;
+  --chip-ink:#1f2c3b;
+
+  --shadow:0 14px 38px rgba(15,23,32,.12);
+  --radius:18px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink);
+  font:15px/1.45 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(54rem 40rem at 0% -10%, rgba(0,195,255,.08), transparent 60%),
+    radial-gradient(54rem 40rem at 120% 120%, rgba(0, 255, 174, 0.1), transparent 60%),
+    linear-gradient(120deg, var(--bg-grad-1), var(--bg-grad-2));
+}
+
+/* ======= Topbar Temu ======= */
+.topbar{
+  position:sticky; top:0; z-index:40;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.72));
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:1200px; margin:10px auto; padding:0 14px;
+  display:grid; grid-template-columns: 170px 1fr; gap:12px; align-items:center;
+}
+.brand{ display:flex; gap:10px; align-items:center; }
+.brand .logo{ width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background:#fff; border:1px solid var(--line); box-shadow:var(--shadow) }
+.brand-name{ font-weight:800; letter-spacing:.2px }
+
+/* Antes: grid-template-columns: 40px 1fr 40px; */
+.searchbar{
+  display:grid;
+  grid-template-columns: 1fr 40px;
+  gap:8px; align-items:center;
+  padding:8px; border-radius:999px; border:1px solid var(--line);
+  background: linear-gradient(180deg,#ffffff,#f5fbff);
+  box-shadow: var(--shadow);
+}
+.searchbar input{
+  border:none; outline:none; font:inherit; background:transparent; color:var(--ink);
+}
+
+.icon-btn{
+  height:36px; border-radius:999px; border:1px solid var(--line);
+  background:#fff; cursor:pointer; display:grid; place-items:center;
+}
+.icon-btn.primary{
+  color:#012a2a; font-weight:800;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border:none;
+}
+
+/* Tabs categorías */
+.tabs{
+  max-width:1200px; margin:8px auto 0; padding:0 14px;
+  display:flex; gap:20px; overflow:auto; scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tabs .tab{
+  position:relative; padding:10px 0; color:#324355; font-weight:700; cursor:pointer; white-space:nowrap;
+}
+.tabs .tab.active{ color:#0f2233 }
+.tabs .tab.active::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius:999px;
+}
+
+/* Promos */
+.promos{
+  max-width:1200px; margin:8px auto 16px; padding:0 14px;
+  display:flex; gap:10px; flex-wrap:wrap;
+}
+.promos span{
+  background:var(--chip); color:var(--chip-ink);
+  padding:6px 10px; border-radius:999px; border:1px solid var(--line);
+}
+
+/* ======= Grid ======= */
+.container{ max-width:1200px; margin:0 auto; padding:0 14px 60px; }
+.grid{ display:grid; gap:18px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+.card{
+  background: linear-gradient(180deg,var(--card),var(--card-2));
+  border:1px solid var(--line); border-radius:16px; box-shadow: var(--shadow);
+}
+
+/* Card producto - compacta estilo Temu */
+.pcard{ overflow:hidden; border-radius:16px; border:1px solid var(--line); background:#fff; box-shadow: var(--shadow); cursor:pointer; transition: transform .08s }
+.pcard:active{ transform: translateY(1px) }
+.pimg{ width:100%; aspect-ratio: 4/3; object-fit:contain; background:#f3f7fa; }
+.pbody{ padding:12px; }
+.ptitle{ font-weight:700; margin:2px 0 8px; color:#0f2233; }
+.pprice{ color:#008b8b; font-weight:900; font-size:18px; letter-spacing:.2px }
+.pcat{ color:var(--muted); font-size:12px; margin-top:2px }
+
+/* ======= Contactos ======= */
+.contacts{ margin-top:34px }
+.contacts h2{ margin:8px 0 12px }
+.contacts-list{ display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+.citem{ padding:14px; border-radius:14px; border:1px solid var(--line); background:#fff; box-shadow: var(--shadow) }
+.crow{ display:flex; gap:8px; align-items:center; color:#2b3b4a; margin:4px 0 }
+.crow b{ color:#0f2233 }
+
+/* Iconos de contactos */
+.crow .ico{
+  width:45px; height:45px;
+  margin-right:17px;
+  vertical-align:middle;
+  object-fit:contain;
+}
+.craw .ico{
+  width:60px; height:60px;
+  margin-right:6px;
+  vertical-align:middle;
+  object-fit:contain;
+}
+
+/* ===== Modal ===== */
+.modal{ position:fixed; inset:0; display:none; }
+.modal[aria-hidden="false"]{ display:block; }
+
+/* Backdrop SIN blur para que no se vea borroso */
+.modal .backdrop{
+  position:absolute; inset:0;
+  background:rgba(0,0,0,.36);
+  backdrop-filter:none;              /* <- quitar el borroso */
+  z-index:1000;
+}
+
+/* Hoja del modal */
+.sheet{
+  position:absolute; inset: 50% auto auto 50%; transform: translate(-50%,-50%);
+  width:min(920px, 96vw);
+  max-height:90vh;
+  overflow:hidden;
+  display:grid; grid-template-columns: 1fr 1fr; gap:18px;
+  background: linear-gradient(180deg,#ffffff,#f7fbff);
+  border:1px solid var(--line); border-radius:20px;
+  box-shadow: 0 40px 140px rgba(0,0,0,.35);
+  z-index:1001;
+}
+/* contenedor relativo para la X */
+.modal .sheet{ position: relative; }
+
+/* Botón Cerrar (X) SIEMPRE encima */
+.modal .close{
+  position:absolute;
+  top:10px; right:10px;
+  width:42px; height:42px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  cursor:pointer;
+  display:grid; place-items:center;
+  box-shadow: var(--shadow);
+  z-index:2002;                     /* <<— clave */
+}
+
+/* Media y cuerpo del modal */
+.md-media{ padding:18px; position:relative; z-index:0; }
+.md-media img{ width:100%; border-radius:14px; background:#f2f7fb; object-fit:contain; aspect-ratio: 4/3; }
+
+.md-body{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height:0;
+  position:relative; z-index:0;
+}
+.md-meta{ display:flex; gap:10px; align-items:center; margin:6px 0 10px }
+.price{ font-weight:900; font-size:22px; color:#008b8b }
+.cat{ color:#5a6c80; font-size:13px; background:#eef6ff; border:1px solid var(--line); padding:4px 8px; border-radius:999px }
+
+.md-desc{
+  flex:1 1 auto;
+  max-height: min(42vh, 460px);
+  overflow:auto;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+
+  line-height:1.55;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.md-desc::-webkit-scrollbar{ width:8px }
+.md-desc::-webkit-scrollbar-thumb{ background: rgba(0,0,0,.18); border-radius:8px }
+
+.md-actions{ display:flex; gap:8px; margin-top:14px }
+.btn.cta{
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color:#022; border:none; padding:12px 16px; border-radius:12px; font-weight:800; text-decoration:none; display:inline-block;
+}
+
+/* ===== FIX: el header nunca tapa el modal ===== */
+.topbar{ z-index: 40; }
+.modal{ z-index: 1000; }
+
+/* ====== Galería en el modal ====== */
+.md-media { position: relative; padding:18px }
+.md-thumbs{
+  margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;
+}
+.md-thumbs button{
+  border:1px solid var(--line); background:#fff; padding:0; cursor:pointer;
+  border-radius:10px; width:70px; height:70px; display:grid; place-items:center;
+}
+.md-thumbs img{ width:100%; height:100%; object-fit:contain }
+.md-thumbs button[aria-current="true"]{
+  outline:3px solid var(--accent); outline-offset:2px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px){
+  .sheet{
+    grid-template-columns:1fr;
+    width:min(640px, 96vw);
+    max-height: 94vh;
+    overflow:auto;
+  }
+  .md-desc{
+    max-height: none;
+    overflow:visible;
+  }
+}

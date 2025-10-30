@@ -1,0 +1,155 @@
+/* ===== public/css/admin.css ===== */
+:root{
+  --bg-start:#3780d8;
+  --bg-end:#0ea0bd;
+
+  --glass:#0c1421cc;
+  --line:rgba(255,255,255,.07);
+  --blur:14px;
+
+  --text:#e7f2ff;
+  --muted:#9aa9c2;
+
+  --surface:#00338a;
+  --surface-2:#0e1726;
+
+  --accent:#00d0ff;
+  --accent-2:#00e38e;
+  --accent-ring: rgba(0,208,255,.28);
+
+  --radius:18px;
+  --shadow-lg:0 28px 70px rgba(0,0,0,.45);
+  --shadow-sm:0 12px 28px rgba(0,0,0,.25);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%; max-width:100%}
+body{
+  margin:0; color:var(--text);
+  font:15px/1.45 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background:
+    radial-gradient(70rem 48rem at -10% -20%, rgba(0,208,255,.10) 0%, transparent 60%),
+    radial-gradient(64rem 52rem at 110% 120%, rgba(0,227,142,.10) 0%, transparent 60%),
+    linear-gradient(120deg, var(--bg-start), var(--bg-end));
+  overflow-x:hidden;
+}
+
+.app{ min-height:100dvh; display:grid; grid-template-columns: 270px 1fr; }
+
+.sidebar{
+  position:sticky; top:0; height:100dvh;
+  padding:20px; border-right:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(12,20,33,.78), rgba(6,12,22,.78));
+  backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  display:flex; flex-direction:column; gap:16px;
+}
+
+.brand{ display:flex; align-items:center; gap:12px; padding:6px 8px }
+.brand-logo{
+  width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
+  background: radial-gradient(90% 90% at 20% 10%, rgba(0,208,255,.20), rgba(0,227,142,.20));
+  border:1px solid var(--line); box-shadow: var(--shadow-sm); font-size:18px;
+  background-size: cover; background-position: center;
+}
+.brand-name{ font-weight:800; letter-spacing:.3px }
+.brand-desc{ margin-left:52px; margin-top:-4px; font-size:12px; color:var(--muted); }
+
+.menu{ display:grid; gap:10px; margin-top:6px }
+.menu a{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px; border-radius:14px;
+  color:var(--text); border:1px solid var(--line);
+  background:rgba(11,18,30,.65); backdrop-filter: blur(6px);
+  transition: background .2s, transform .05s, border-color .2s, box-shadow .2s;
+}
+.menu a .icon{ opacity:.9; width:22px; text-align:center; font-size:18px }
+.menu a:hover{ background:rgba(16,28,46,.82) }
+.menu a:active{ transform: translateY(1px) }
+.menu a.active{
+  background:linear-gradient(90deg, rgba(0,208,255,.22), rgba(0,227,142,.22));
+  border-color: rgba(255,255,255,.18);
+  box-shadow: 0 0 0 2px rgba(0,208,255,.28) inset;
+}
+
+.sidebar-foot{ margin-top:auto; display:grid; gap:10px }
+.btn{
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border:none; color:#031017; font-weight:800;
+  padding:11px 14px; border-radius:14px; cursor:pointer;
+}
+.btn:hover{ filter: brightness(1.05) }
+.btn-outline{ background:transparent; border:1px solid var(--accent); color: white; }
+.btn-secondary{ background:linear-gradient(90deg, rgba(255, 255, 255, 0.18), #00338a); color:#e6f4ff; border:1px solid rgba(255, 255, 255, 0.12); text-align: center; }
+.btn-full{ width:100% }
+.small{ padding:7px 10px; font-size:13px }
+.btn-danger{ background:transparent; color:#ff6b6b; border:1px solid #ff6b6b; border-radius:14px; padding:7px 10px; cursor:pointer; }
+.btn-danger:hover{ filter:brightness(1.05) }
+
+.main{ padding:26px; min-width:0; overflow-x:auto }
+.page-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px }
+.page-head h1{ margin:0; font-size:32px; letter-spacing:.2px }
+
+.grid-1{ display:grid; gap:18px }
+.grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:18px }
+.grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:18px }
+
+.surface, .card{
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  color:var(--text);
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  padding:18px;
+  max-width:100%;
+}
+
+.label{ display:block; margin:10px 0 10px; color:#d1e1f3; font-size:18px; font-weight:600 }
+.input{
+  width:100%; background:#0b1220; color:#eaf4ff;
+  padding:11px 12px; border-radius:12px; border:1px solid #1f2a3c; outline:none;
+  transition: box-shadow .2s, border-color .2s, background .2s;
+}
+.input:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+  background:#0a1424;
+}
+.combo{ display:flex; gap:8px }
+
+.preview{
+  margin-top:10px;
+  min-height:140px;
+  padding:12px;
+  border:1px dashed #274155;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    conic-gradient(#111927 25%, #0b1220 0 50%, #111927 0 75%, #0b1220 0) 0/22px 22px content-box,
+    #0b1220;
+  overflow:hidden;
+}
+.preview>img{ max-width: 100%; max-height: clamp(220px, 38vh, 480px); width:auto; height:auto; object-fit:contain; image-rendering:auto; }
+
+.table-wrap{ overflow:auto; border-radius:14px; border:1px solid #ffffff; background:linear-gradient(180deg, #0e1725, #0c1624); }
+.table{ width:100%; border-collapse:collapse; min-width:780px; color:#e7f2ff }
+.table th, .table td{ padding:12px 14px; border-bottom:1px solid #1e2a3a }
+.table th{ position:sticky; top:0; text-align:left; font-weight:800; color:#cfe3f7; background:linear-gradient(180deg,#0f1c2e,#0c1624); }
+.table td.right{ text-align:right }
+.table img.thumb{ width:60px; height:60px; object-fit:cover; border-radius:10px; border:1px solid #263547 }
+
+#prodPreview{ height:auto !important; min-height:0 !important; padding:12px; overflow:visible; background:conic-gradient(#111927 25%, #0b1220 0 50%, #111927 0 75%, #0b1220 0) 0/22px 22px content-box,#0b1220; border:1px dashed #274155; border-radius:12px; }
+#prodPreview > img.fit{ display:block; width:auto; height:auto; max-width:100%; max-height:min(52vh,520px); object-fit:contain; margin-inline:auto; }
+
+@media (max-width:1060px){
+  .app{ grid-template-columns: 220px 1fr }
+  .grid-2, .grid-3{ grid-template-columns:1fr }
+}
+@media (max-width: 900px){
+  .main{ padding: clamp(14px, 3vw, 20px); }
+}
+@media (max-height: 640px){
+  .card{ padding:16px }
+}

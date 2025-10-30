@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Iniciar sesión • Wholesale</title>
+
+  <!-- Fuente moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Estilos exclusivos del login -->
+  <link rel="stylesheet" href="/css/login.css" />
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="bg-animate"></div>
+
+  <main class="login-wrap" aria-label="Contenido principal">
+    <!-- Marca -->
+    <section class="brand">
+      <img class="brand__logo" src="/img/logo.jpg" alt="Logo Wholesale" />
+      <h1 class="brand__name">WHOLESALE<span>.COM</span></h1>
+      <p class="brand__tag">Panel administrativo</p>
+    </section>
+
+    <section class="card" role="form">
+      <h2 class="card__title">Iniciar sesión</h2>
+
+      <form id="loginForm" class="form" autocomplete="off">
+        <label class="field">
+          <span>Correo</span>
+          <input id="email" type="email" inputmode="email" placeholder="Ingrese su correo" required />
+        </label>
+
+        <label class="field">
+          <span>Contraseña</span>
+          <div class="password">
+            <input id="pass" type="password" placeholder="Ingrese su contraseña" required />
+            <button class="toggle-pass" type="button" aria-label="Mostrar u ocultar contraseña">👁️</button>
+          </div>
+        </label>
+
+        <button id="go" class="btn" type="submit">Entrar</button>
+
+        <div class="links">
+          <a href="/forgot.html">¿Olvidó su contraseña?</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Toast de mensajes -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Splash/Overlay de bienvenida (aparece 3s al cargar) -->
+  <div id="welcomeOverlay" aria-hidden="false">
+    <div class="welcome-card" role="dialog" aria-modal="true" aria-label="Bienvenida">
+      <div class="welcome-badge">🧑‍💼</div>
+      <h3>¡BIENVENIDO JEFE!</h3>
+      <p>Accediendo al panel…</p>
+    </div>
+  </div>
+
+  <!-- Lógica del login y del splash -->
+  <script src="/js/login.js"></script>
+</body>
+</html>

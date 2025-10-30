@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin • Dashboard</title>
+  <link rel="stylesheet" href="/css/admin.css">
+
+  <!-- Responsividad específica del dashboard -->
+  <style>
+
+    /* ======== KPIs súper responsivos ======== */
+    .grid-kpis{
+      display:grid;
+      gap: clamp(10px, 2.5vw, 16px);
+      /* Se auto-ajusta: 1, 2 o 3 columnas según espacio disponible */
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      margin-bottom: clamp(12px, 3vw, 20px);
+    }
+    /* Asegura un alto cómodo y tipografía fluida */
+    .kpi{
+      min-height: clamp(80px, 12vw, 120px);
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding: clamp(8px, 2vw, 14px);
+    }
+    .kpi .stat-label{ font-size: clamp(12px, 2.2vw, 14px); opacity:.9; }
+    .kpi .stat-value{ font-size: clamp(20px, 5vw, 34px); font-weight:800; }
+
+    /* ======== Bloque del LOGO (totalmente fluido) ======== */
+    .logo-area{
+      display:grid;
+      place-items:center;
+      padding-inline: clamp(8px, 3vw, 16px);
+      margin-top: clamp(10px, 3vw, 20px);
+    }
+    .brand-card{
+      width: min(96vw, 880px);               /* ancho fluido hasta 880 */
+      border-radius: 22px;
+      padding: clamp(18px, 4vw, 34px) clamp(16px, 4vw, 32px);
+      text-align:center;
+      background:
+        radial-gradient(140% 140% at 50% 0%, rgba(255,255,255,.16), rgba(255,255,255,.06) 60%, rgba(255,255,255,.03) 100%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.1);
+      backdrop-filter: blur(6px);
+    }
+    .brand-img{
+      width: clamp(90px, 14vw, 160px);
+      height: clamp(90px, 14vw, 160px);
+      object-fit: contain;
+      border-radius: 18px;
+      display:block;
+      margin: 0 auto clamp(10px, 2.6vw, 16px);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 16px 38px rgba(0,0,0,.35);
+    }
+    .brand-title{
+      margin: 0 0 clamp(6px, 1.8vw, 12px);
+      font-size: clamp(26px, 6vw, 46px);
+      letter-spacing:.4px;
+      line-height:1.1;
+    }
+    .brand-title span{ color:#28e0a6; }
+    .brand-tag{
+      margin:0;
+      opacity:.85;
+      font-size: clamp(13px, 2.6vw, 16px);
+    }
+
+    /* === Centrado del contenido del dashboard === */
+.dashboard-wrap{
+  max-width: 1200px;      /* ancho cómodo */
+  margin: 0 auto;         /* centra respecto al viewport */
+}
+
+/* la tarjeta del logo queda centrada igual que los KPIs */
+.logo-area{ display:flex; justify-content:center; }
+.brand-card{ margin-inline: auto; }
+
+
+    /* ======== Ajustes cuando el viewport es ESTRECHO ======== */
+    @media (max-width: 1024px){
+      /* si tu /css/admin.css tiene paddings grandes, los suavizamos aquí */
+      .main{ padding: clamp(10px, 3vw, 18px); }
+    }
+
+    /* ======== Alturas BAJAS: evita scroll vertical excesivo ======== */
+    @media (max-height: 640px){
+      .kpi{ min-height: clamp(70px, 10vw, 100px); }
+      .brand-card{ padding: clamp(14px, 3vw, 22px); }
+      .logo-area{ margin-top: clamp(6px, 2vw, 10px); }
+    }
+
+    /* ======== Micro-phones MUY estrechos (~320px) ======== */
+    @media (max-width: 360px){
+      .brand-card{ width: 96vw; border-radius: 18px; }
+      .brand-img{ border-radius: 14px; }
+    }
+    /* Permitir scroll horizontal cuando sea necesario */
+html, body { overflow-x: auto; }
+
+/* Los hijos de grid (sidebar/main) deben poder encoger; evita overflow fantasma */
+.main, .sidebar { min-width: 0; }
+
+/* Si algo es más ancho, que solo la zona de contenido pueda desplazarse */
+.main { overflow-x: auto; }
+
+/* Por si alguna tarjeta impone anchura fija, no permitas que rompa el layout */
+.card, .surface { max-width: 100%; }
+
+  </style>
+</head>
+<body class="app">
+  <!-- Sidebar (tu estructura original) -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">📊</div>
+      <div class="brand-name">Módulo de dashboard</div>
+    </div>
+<nav class="menu">
+  <a href="/admin/dashboard.html" class="active"><span class="icon">📊</span><span>Dashboard</span></a>
+  <a href="/admin/productos.html"><span class="icon">🛒</span><span>Productos</span></a>
+  <a href="/admin/contactos.html"><span class="icon">👥</span><span>Contactos</span></a>
+  <a href="/admin/ajustes.html"><span class="icon">⚙️</span><span>Ajustes</span></a>
+</nav>
+
+    <div class="sidebar-foot">
+      <a class="btn btn-secondary btn-full" href="/" target="_blank">🏠 Visitar mi tienda</a>
+      <button id="logoutBtn" class="btn btn-outline btn-full">🔒 Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+ <main class="main">
+  <div class="dashboard-wrap">
+    <!-- KPIs -->
+    <section class="grid-kpis">
+      <div class="card stat kpi">
+        <div class="stat-label">Productos</div>
+        <div class="stat-value" id="statProducts">—</div>
+      </div>
+      <div class="card stat kpi">
+        <div class="stat-label">Categorías</div>
+        <div class="stat-value" id="statCategories">—</div>
+      </div>
+      <div class="card stat kpi">
+        <div class="stat-label">Contactos</div>
+        <div class="stat-value" id="statContacts">—</div>
+      </div>
+    </section>
+
+    <!-- Logo -->
+    <section class="logo-area">
+      <div class="brand-card card">
+        <img class="brand-img" src="/img/logo.jpg" alt="Logo de la empresa">
+        <h2 class="brand-title">Bienvenido Edwin Aroldo Esteban Cordón</span></h2>
+        <p class="brand-tag">Este es el panel administrativo de su empresa</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+
+  <script src="/js/admin-common.js"></script>
+  <script src="/js/admin-dashboard.js"></script>
+</body>
+</html>

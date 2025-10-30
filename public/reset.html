@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Restablecer contraseña</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="bg-animate"></div>
+
+  <main class="wrap">
+    <!-- CUADRO CENTRADO -->
+    <section class="center-box" role="region" aria-label="Restablecer contraseña">
+      <h1 class="page-title">Restablecer contraseña</h1>
+
+      <div class="card">
+        <form id="resetForm" class="form" autocomplete="off">
+          <label class="field">
+            <span class="field__label">¿Cuál es su nueva contraseña?</span>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input id="next" type="password" placeholder="Ingrese su nueva contraseña, Jefe" minlength="8" required>
+              <button class="toggle-pass" type="button" aria-label="Mostrar u ocultar contraseña">👁️</button>
+            </div>
+            <small class="hint">Mínimo 8 caracteres.</small>
+          </label>
+
+          <button id="go" class="btn" type="submit">Restablecer</button>
+
+          <div class="links">
+            <a href="/login">⬅️ Volver al inicio de sesión</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Obtener token de la URL
+    const token = new URLSearchParams(location.search).get('token') || '';
+
+    const form   = document.getElementById('resetForm');
+    const passEl = document.getElementById('next');
+    const btn    = document.getElementById('go');
+    const toggle = document.querySelector('.toggle-pass');
+
+    toggle?.addEventListener('click', () => {
+      if (!passEl) return;
+      passEl.type = passEl.type === 'password' ? 'text' : 'password';
+    });
+
+    async function doReset(){
+      const next = (passEl?.value || '').trim();
+      if(!next || next.length < 8){
+        passEl?.focus();
+        alert('La contraseña debe tener al menos 8 caracteres.');
+        return;
+      }
+      try{
+        btn.disabled = true;
+        btn.textContent = 'Guardando…';
+        const r = await fetch('/api/auth/reset', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ token, next })
+        });
+        if(r.ok){
+          alert('Contraseña actualizada');
+          location.href = '/login';
+        }else{
+          alert('Token inválido o expirado');
+        }
+      }catch(e){
+        alert('No se pudo actualizar. Inténtalo más tarde.');
+      }finally{
+        btn.disabled = false;
+        btn.textContent = 'Restablecer';
+      }
+    }
+
+    form?.addEventListener('submit', (e)=>{ e.preventDefault(); doReset(); });
+  </script>
+</body>
+</html>

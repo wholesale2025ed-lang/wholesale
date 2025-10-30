@@ -1,0 +1,105 @@
+<!-- ===== public/index.html ===== -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Wholesale • Tienda</title>
+  <link rel="stylesheet" href="/css/public.css"/>
+  <style>
+    html, body { overflow-x: hidden; }
+    .main { overflow-x: auto; }
+    .main, .sidebar, .card, .surface { min-width: 0; max-width: 100%; }
+
+    .contacts { margin-top: 10px; }
+    #grid { margin-top: 16px; }
+
+    /* ——— Logo más grande en desktop ——— */
+    .brand .logo{
+      width: 90px;
+      height: 90px;
+      border-radius: 12px;
+    }
+    .brand .logo-img{
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      padding: 6px;
+    }
+    .topbar-inner{
+      grid-template-columns: 210px 1fr;
+    }
+
+    @media (max-width: 640px){
+      .brand .logo{ width: 42px; height: 42px; }
+      .topbar-inner{ grid-template-columns: 180px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ======= Topbar estilo Temu ======= -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <a class="logo" href="/" aria-label="Inicio">
+          <img id="brandLogoImg" class="logo-img" src="/img/logo.jpg" alt=""/>
+        </a>
+        <span id="brandName" class="brand-name">Wholesale.com</span>
+      </div>
+
+      <div class="searchbar">
+        <input id="q" placeholder="Buscar productos…"/>
+        <button class="icon-btn primary" aria-label="buscar" id="qBtn">🔍</button>
+      </div>
+    </div>
+
+    <nav id="cats" class="tabs"></nav>
+
+    <div class="promos">
+      <span id="brandTagline">✓ Compras seguras</span>
+    </div>
+  </header>
+
+  <!-- ======= Contactos ARRIBA + Grid productos ======= -->
+  <main class="container">
+    <!-- Contactos (arriba, debajo de promos) -->
+    <section id="contactos" class="contacts">
+      <h2>Contactos</h2>
+      <div id="contactsList" class="contacts-list"></div>
+    </section>
+
+    <!-- Productos debajo -->
+    <section id="grid" class="grid"></section>
+  </main>
+
+  <!-- ======= Modal detalle producto ======= -->
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="backdrop" id="modalBackdrop"></div>
+  <article class="sheet" role="dialog" aria-modal="true" aria-labelledby="mdTitle">
+    <button class="close" id="mdClose" aria-label="Cerrar">❌</button>
+
+    <div class="md-media">
+      <img id="mdImg" alt="Imagen del producto">
+      <div id="mdThumbs" class="md-thumbs"></div>
+    </div>
+
+    <div class="md-body">
+      <h3 id="mdTitle"></h3>
+      <div class="md-meta">
+        <span class="price" id="mdPrice"></span>
+        <span class="cat" id="mdCat"></span>
+      </div>
+      <p id="mdDesc" class="md-desc"></p>
+
+      <div class="md-actions">
+        <a id="mdWhats" class="btn cta" target="_blank" rel="noopener">Comprar por WhatsApp</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+
+  <script src="/js/public.js"></script>
+</body>
+</html>

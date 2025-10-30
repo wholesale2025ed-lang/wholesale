@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Primer cambio</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/first-change.css">
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="bg-animate"></div>
+
+  <main class="wrap">
+    <!-- CUADRO CENTRADO -->
+    <section class="center-box" role="region" aria-label="Primer cambio de contraseña">
+      <h1 class="page-title">Primer cambio de contraseña</h1>
+
+      <div class="card">
+        <form id="firstForm" class="form" autocomplete="off">
+          <!-- Actual temporal -->
+          <label class="field">
+            <span class="field__label">¿Cuál es su contraseña actual?</span>
+            <div class="input-wrap">
+              <span class="input-icon">🔑</span>
+              <input id="current" type="password" placeholder="Ingrese su contraseña temporal, Jefe" required>
+              <button class="toggle-pass" data-target="current" type="button" aria-label="Mostrar u ocultar contraseña">👁️</button>
+            </div>
+          </label>
+
+          <!-- Nueva -->
+          <label class="field">
+            <span class="field__label">¿Cuál es su nueva contraseña?</span>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input id="next" type="password" placeholder="Ingrese su nueva contraseña, Jefe" minlength="8" required>
+              <button class="toggle-pass" data-target="next" type="button" aria-label="Mostrar u ocultar contraseña">👁️</button>
+            </div>
+            <small class="hint">Mínimo 8 caracteres.</small>
+          </label>
+
+          <button id="save" class="btn" type="submit">Guardar</button>
+
+          <div class="links">
+            <a href="/login">⬅️ Volver al inicio de sesión</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form    = document.getElementById('firstForm');
+    const current = document.getElementById('current');
+    const next    = document.getElementById('next');
+    const btn     = document.getElementById('save');
+
+    // Ojo de cada campo
+    document.querySelectorAll('.toggle-pass').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const id = b.getAttribute('data-target');
+        const input = document.getElementById(id);
+        if(!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      });
+    });
+
+    async function submitChange(){
+      const cur = (current?.value || '').trim();
+      const nxt = (next?.value || '').trim();
+      if(!cur){ alert('Ingrese su contraseña temporal.'); current?.focus(); return; }
+      if(!nxt || nxt.length < 8){ alert('La nueva contraseña debe tener al menos 8 caracteres.'); next?.focus(); return; }
+
+      try{
+        btn.disabled = true;
+        btn.textContent = 'Guardando…';
+        const r = await fetch('/api/auth/change-password', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ current: cur, next: nxt })
+        });
+
+        const data = await r.json().catch(()=> ({}));
+        if(r.ok){
+          alert('Contraseña actualizada');
+          // Tu servidor deja de marcar is_temp y ya te deja entrar al panel
+          location.href = '/admin';
+        }else{
+          alert(data.error || 'No se pudo actualizar (verifique la contraseña actual).');
+        }
+      }catch(e){
+        alert('No se pudo actualizar. Intente más tarde.');
+      }finally{
+        btn.disabled = false;
+        btn.textContent = 'Guardar';
+      }
+    }
+
+    form?.addEventListener('submit', (e)=>{ e.preventDefault(); submitChange(); });
+  </script>
+</body>
+</html>

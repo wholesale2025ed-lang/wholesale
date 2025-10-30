@@ -1,0 +1,143 @@
+<!-- ===== public/admin/productos.html ===== -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin • Productos</title>
+  <link rel="stylesheet" href="/css/admin.css"/>
+
+  <style>
+ html, body { overflow-x: hidden; }
+    .main { overflow-x: auto; }
+    .main, .sidebar, .card, .surface { min-width: 0; max-width: 100%; }
+
+    /* Grid de previews */
+    #prodPreview{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+      gap:10px; align-items:stretch;
+      min-height:120px; padding:10px;
+      border:1px dashed #274155; border-radius:12px;
+      background:
+        conic-gradient(#111927 25%, #0b1220 0 50%, #111927 0 75%, #0b1220 0) 0/22px 22px content-box,
+        #0b1220;
+    }
+    .ph{
+      color:#98a9bb; display:grid; place-items:center;
+      border:1px dashed #274155; border-radius:12px; padding:10px
+    }
+    .thumb{
+      position:relative; border:1px solid #263547; border-radius:10px;
+      background:#0b1220; display:grid; place-items:center; overflow:hidden;
+    }
+    .thumb img{ width:100%; height:100%; object-fit:contain; aspect-ratio:4/3 }
+    .rm{
+      position:absolute; inset:6px 6px auto auto; border:none; cursor:pointer;
+      background:#ff5d5d; color:#011; font-weight:800; border-radius:10px; padding:4px 6px
+    }
+  </style>
+</head>
+<body class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">🛒</div>
+      <div class="brand-name">
+        <div style="font-weight:800">Módulo de Productos</div>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a href="/admin/dashboard.html"><span class="icon">📊</span><span>Dashboard</span></a>
+      <a href="/admin/productos.html" class="active"><span class="icon">🛒</span><span>Productos</span></a>
+      <a href="/admin/contactos.html"><span class="icon">👥</span><span>Contactos</span></a>
+      <a href="/admin/ajustes.html"><span class="icon">⚙️</span><span>Ajustes</span></a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <a class="btn btn-secondary btn-full" href="/" target="_blank">🏠 Visitar mi tienda</a>
+      <button id="logoutBtn" class="btn btn-outline btn-full">🔒 Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <section class="grid-2">
+      <!-- Formulario -->
+      <form id="productForm" class="card" enctype="multipart/form-data">
+        <div class="form-head" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h1 id="productFormTitle">Agregar Producto</h1>
+          <button type="button" id="productFormReset" class="btn btn-outline small">Limpiar</button>
+        </div>
+
+        <input type="hidden" id="prodId"/>
+
+        <label class="label">Nombre del producto</label>
+        <input class="input" type="text" id="prodTitle" required>
+
+        <label class="label">Descripción</label>
+        <textarea class="input" id="prodDesc" rows="4" placeholder="Detalle del producto…"></textarea>
+
+        <div class="grid-2">
+          <div>
+            <label class="label">Categoría</label>
+            <div class="combo">
+              <select id="prodCat" class="input"></select>
+              <button type="button" id="btnAddCat" class="btn btn-outline small">Agregar categoria</button>
+              <button type="button" id="btnDelCat" class="btn btn-danger small" title="Eliminar categoría seleccionada">Eliminar categoria</button>
+            </div>
+          </div>
+          <div>
+            <label class="label">Precio</label>
+            <input class="input" type="number" step="0.01" min="0" id="prodPrice" required>
+          </div>
+        </div>
+
+        <!-- === NUEVO: 5 inputs individuales === -->
+        <label class="label">Imágenes (5 permitidas)</label>
+        <div id="imgInputs" class="combo" style="flex-wrap:wrap; gap:8px">
+          <input type="file" accept="image/*" id="img1">
+          <input type="file" accept="image/*" id="img2">
+          <input type="file" accept="image/*" id="img3">
+          <input type="file" accept="image/*" id="img4">
+          <input type="file" accept="image/*" id="img5">
+        </div>
+
+        <div id="prodPreview"><div class="ph">Sin imágenes</div></div>
+
+        <div style="display:flex;justify-content:flex-end;margin-top:14px">
+          <button class="btn" type="submit" id="productSubmit">Añadir producto</button>
+        </div>
+      </form>
+
+      <!-- Tabla -->
+      <div class="card">
+        <div class="toolbar-right">
+          <input id="prodSearch" class="input" placeholder="Buscar...">
+        </div>
+        <h1>Tienda</h1>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Título</th>
+                <th class="col-desc">Descripción</th>
+                <th>Categoría</th>
+                <th class="right">Precio</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="prodTbody"></tbody>
+          </table>
+        </div>
+        <div id="prodEmpty" style="color:var(--muted);padding:10px" hidden>No hay productos…</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/admin-common.js"></script>
+  <script src="/js/admin-productos.js"></script>
+</body>
+</html>

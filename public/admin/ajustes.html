@@ -1,0 +1,137 @@
+<!-- ===== public/admin/ajustes.html ===== -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin • Ajustes</title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <style>
+    .settings-grid{display:grid;gap:18px;grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:1060px){.settings-grid{grid-template-columns:1fr}}
+    .row{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:900px){.row{grid-template-columns:1fr}}
+    .muted{color:var(--muted);font-size:13px}
+    .swatches{display:flex;gap:10px;flex-wrap:wrap}
+    .swatch{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+    .swatch[aria-checked="true"]{outline:3px solid var(--accent-ring)}
+    .divider{height:1px;background:var(--line);margin:8px 0 14px}
+    .inline{display:flex;align-items:center;gap:10px}
+    .preview{margin-top:10px;min-height:140px;padding:12px;border:1px dashed #274155;border-radius:12px;display:flex;align-items:center;justify-content:center;background:conic-gradient(#111927 25%, #0b1220 0 50%, #111927 0 75%, #0b1220 0) 0/22px 22px content-box,#0b1220}
+    .preview>img{max-width:100%;max-height:280px;object-fit:contain}
+  </style>
+</head>
+<body class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo" id="adminBrandLogo">⚙️</div>
+      <div class="brand-name" id="adminBrandName">Módulo de ajustes</div>
+      <div class="brand-desc" id="adminBrandTag"></div>
+    </div>
+    <nav class="menu">
+      <a href="/admin/dashboard.html"><span class="icon">📊</span>Dashboard</a>
+      <a href="/admin/productos.html"><span class="icon">🛒</span>Productos</a>
+      <a href="/admin/contactos.html"><span class="icon">👥</span>Contactos</a>
+      <a href="/admin/ajustes.html" class="active"><span class="icon">⚙️</span>Ajustes</a>
+    </nav>
+    <div class="sidebar-foot">
+      <a class="btn btn-secondary btn-full" href="/" target="_blank">🏠 Visitar mi tienda</a>
+      <button id="logoutBtn" class="btn btn-outline btn-full">🔒 Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="page-head"><h1>Ajustes y configuraciones</h1></header>
+
+    <section class="settings-grid">
+      <!-- Atajos -->
+      <div class="card">
+        <h3>Accesos</h3>
+        <div class="grid-2">
+          <a class="btn btn-secondary" href="/" target="_blank">🏠 Visitar mi tienda</a>
+          <a class="btn btn-outline" href="/login">🔒 Cerrar sesión</a>
+        </div>
+      </div>
+
+      <!-- Cambiar contraseña -->
+      <form id="pwdForm" class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <h3>Cambiar contraseña</h3>
+        </div>
+        <label class="label">Contraseña actual</label>
+        <input class="input" type="password" id="pwdCurrent" required>
+
+        <div class="row">
+          <div>
+            <label class="label">Nueva contraseña</label>
+            <input class="input" type="password" id="pwdNext" required>
+          </div>
+          <div>
+            <label class="label">Repetir contraseña</label>
+            <input class="input" type="password" id="pwdRepeat" required>
+          </div>
+          <div style="display:flex;align-items:end">
+            <button class="btn" type="submit" style="width:100%">Actualizar</button>
+          </div>
+        </div>
+        <div id="pwdMsg" class="muted" style="margin-top:8px"></div>
+      </form>
+
+      <!-- Preferencias de interfaz -->
+      <div class="card">
+        <h3>Preferencias de interfaz</h3>
+        <div class="divider"></div>
+
+        <div style="margin-bottom:12px">
+          <div class="label" style="margin-top:0">Color</div>
+          <div class="swatches" id="accentSwatches" role="radiogroup" aria-label="Acento"></div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <label class="label">Tamaño del texto</label>
+          <div class="inline">
+            <input type="range" id="fontRange" min="13" max="18" value="15">
+            <span id="fontRangeVal" class="muted">15 px</span>
+          </div>
+        </div>
+
+        <div class="inline">
+          <input type="checkbox" id="denseToggle">
+          <label for="denseToggle">Modo compacto</label>
+        </div>
+      </div>
+
+      <!-- Identidad de marca -->
+<div class="card">
+  <h3>Identidad de marca</h3>
+
+  <form id="brandForm" class="grid-1" style="margin-top:8px">
+    <label class="label">Nombre de su empresa</label>
+    <input class="input" id="brandName" placeholder="Mi empresa S.A.">
+
+    <label class="label">Lema, misión o visión de su empresa</label>
+    <input class="input" id="brandTag" placeholder="Compras seguras">
+
+    <label class="label">Logo de su empresa</label>
+    <input type="file" id="brandLogo" accept="image/*" class="input">
+
+    <div id="brandPreview" class="preview" style="min-height:220px">
+      <img id="brandLogoImg" alt="Logo" style="display:none;max-width:100%;max-height:38vh;object-fit:contain">
+    </div>
+
+    <div class="grid-2" style="margin-top:10px">
+      <button type="submit" class="btn">Guardar identidad</button>
+      <button type="button" id="brandRemoveLogo" class="btn btn-danger">Quitar logo</button>
+    </div>
+
+    <div id="brandMsg" class="muted" style="margin-top:8px"></div>
+  </form>
+</div>
+
+    </section>
+  </main>
+
+  <script src="/js/admin-common.js"></script>
+  <script src="/js/admin-ajustes.js"></script>
+</body>
+</html>

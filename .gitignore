@@ -1,0 +1,19 @@
+# dependencias
+node_modules/
+
+# variables privadas
+.env
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# uploads locales (por si algún día vuelves a guardar archivos ahí)
+public/uploads/
+
+# sistema
+.DS_Store
+Thumbs.db
