@@ -1,6 +1,6 @@
 -- ============================
 -- BASE DE DATOS WHOLESALE (Railway)
--- SOLO ESTRUCTURA, SIN DATOS
+-- Estructura + semillas mínimas
 -- ============================
 
 -- Usar la BD que ya trae Railway
@@ -19,12 +19,35 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at    TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+-- ===== usuario admin =====
+-- contraseña: Temporal123!
+-- (es el mismo hash que ya usabas)
+INSERT INTO users (id, username, email, password_hash, is_temp)
+VALUES (
+  1,
+  'admin',
+  'wholesale2025ed@gmail.com',
+  '$2b$10$yW32lD3cS6Y3sxmirFqTNubwlEIXbhD9lxzujhTTHNb7IMhMstZvO',
+  1
+)
+ON DUPLICATE KEY UPDATE
+  username = VALUES(username),
+  email    = VALUES(email),
+  password_hash = VALUES(password_hash),
+  is_temp  = VALUES(is_temp);
+
 -- 2) TABLA categories
 CREATE TABLE IF NOT EXISTS categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(120) NOT NULL UNIQUE,
   slug VARCHAR(140) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
+
+-- semillas mínimas de categorías
+INSERT IGNORE INTO categories (id, name, slug) VALUES
+  (1,'Accesorios','accesorios'),
+  (2,'Ropa','ropa'),
+  (3,'Electrónica','electronica');
 
 -- 3) TABLA products
 CREATE TABLE IF NOT EXISTS products (
@@ -52,6 +75,25 @@ CREATE TABLE IF NOT EXISTS contacts (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+-- contacto demo (para que /api/contacts no esté vacío)
+INSERT INTO contacts (id, whatsapp, phone, email, facebook, instagram, tiktok, address, visible)
+VALUES
+(1, '+5021367499', '31367499', 'cliente@correo.com',
+ 'https://facebook.com/tu_pagina',
+ 'https://instagram.com/tu_usuario',
+ 'https://www.tiktok.com/@tu_usuario',
+ 'Calle 1, Zona 1, Ciudad',
+ 1)
+ON DUPLICATE KEY UPDATE
+  whatsapp = VALUES(whatsapp),
+  phone    = VALUES(phone),
+  email    = VALUES(email),
+  facebook = VALUES(facebook),
+  instagram= VALUES(instagram),
+  tiktok   = VALUES(tiktok),
+  address  = VALUES(address),
+  visible  = VALUES(visible);
+
 -- 5) TABLA brand_settings
 CREATE TABLE IF NOT EXISTS brand_settings (
   id TINYINT PRIMARY KEY,
@@ -63,6 +105,14 @@ CREATE TABLE IF NOT EXISTS brand_settings (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
              ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
+
+-- registro base de branding
+INSERT INTO brand_settings (id, brand_name, tagline, logo_url)
+VALUES (1, 'Wholesale.com', '✓ Compras seguras y confiables', NULL)
+ON DUPLICATE KEY UPDATE
+  brand_name = VALUES(brand_name),
+  tagline    = VALUES(tagline),
+  logo_url   = VALUES(logo_url);
 
 -- 6) TABLA product_images
 CREATE TABLE IF NOT EXISTS product_images (

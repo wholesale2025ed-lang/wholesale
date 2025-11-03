@@ -13,6 +13,10 @@ const crypto     = require('crypto');
 
 const app = express();
 
+/* ========= NUEVO: confiar en proxy y helpers de entorno ========= */
+app.enable('trust proxy'); // necesario detrás de Render/Proxies
+const IS_PROD = process.env.NODE_ENV === 'production' || process.env.RENDER === 'true';
+
 /* ======================= DB ======================= */
 const pool = mysql.createPool({
   host:     process.env.DB_HOST || '127.0.0.1',
@@ -137,6 +141,25 @@ function slugify(str=''){
 }
 function fileExists(p){ try{ return fs.existsSync(p); }catch{ return false; } }
 
+/* ======== NUEVO: redirecciones de HTTPS y dominio canónico ======== */
+/* Colocado antes de middlewares/estáticos para que redirija lo más pronto posible */
+if (IS_PROD) {
+  // 1) Forzar HTTPS
+  app.use((req, res, next) => {
+    if (req.secure || req.headers['x-forwarded-proto'] === 'https') return next();
+    return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+  });
+
+  // 2) Redirigir apex → www (ventasedc.com => www.ventasedc.com)
+  app.use((req, res, next) => {
+    const host = req.headers.host || '';
+    if (!host.startsWith('www.') && /^ventasedc\.com(?::\d+)?$/i.test(host)) {
+      return res.redirect(301, `https://www.ventasedc.com${req.originalUrl}`);
+    }
+    next();
+  });
+}
+
 /* ================= Middlewares ================ */
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -145,7 +168,12 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'devsecret',
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true }
+  cookie: {
+    httpOnly: true,
+    // ===== NUEVO: segura solo en producción (para que funcione en localhost) =====
+    secure: IS_PROD,
+    sameSite: 'lax'
+  }
 }));
 
 /* ================= Static files ================= */
@@ -406,8 +434,8 @@ app.put('/api/admin/contacts/:id', isAuth, async (req, res) => {
   }
 });
 
-app.delete('/api/admin/contacts/:id', isAuth, async (req, res) => {
-  try {
+app.delete('/api/admin/contacts/:id', isAuth, async (req,res)=>{
+  try{
     const id = Number(req.params.id);
     const [r] = await pool.query('DELETE FROM contacts WHERE id=?', [id]);
     if (!r.affectedRows) {
