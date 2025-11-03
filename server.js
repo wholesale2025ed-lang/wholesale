@@ -143,7 +143,7 @@ function fileExists(p){ try{ return fs.existsSync(p); }catch{ return false; } }
 
 /* ======== NUEVO: redirecciones de HTTPS y dominio canónico ======== */
 /* Colocado antes de middlewares/estáticos para que redirija lo más pronto posible */
-if (IS_PROD) {
+/*if (IS_PROD) {
   // 1) Forzar HTTPS
   app.use((req, res, next) => {
     if (req.secure || req.headers['x-forwarded-proto'] === 'https') return next();
@@ -159,6 +159,7 @@ if (IS_PROD) {
     next();
   });
 }
+*/
 
 /* ================= Middlewares ================ */
 app.use(cors());
