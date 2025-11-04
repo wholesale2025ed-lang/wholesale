@@ -47,7 +47,7 @@ body{
 .brand .logo{ width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background:#fff; border:1px solid var(--line); box-shadow:var(--shadow) }
 .brand-name{ font-weight:800; letter-spacing:.2px }
 
-/* Antes: grid-template-columns: 40px 1fr 40px; */
+/* Buscador */
 .searchbar{
   display:grid;
   grid-template-columns: 1fr 40px;
@@ -115,7 +115,7 @@ body{
 .pcat{ color:var(--muted); font-size:12px; margin-top:2px }
 
 /* ======= Contactos ======= */
-.contacts{ margin-top:34px }
+.contacts{ margin-top:18px }
 .contacts h2{ margin:8px 0 12px }
 .contacts-list{ display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
 .citem{ padding:14px; border-radius:14px; border:1px solid var(--line); background:#fff; box-shadow: var(--shadow) }
@@ -136,6 +136,34 @@ body{
   object-fit:contain;
 }
 
+/* Botón Toggle Contactos */
+.contact-toggle-wrap{
+  display:flex; justify-content:center; margin:28px 0 6px;
+}
+.contact-toggle{
+  display:inline-flex; align-items:center; gap:10px;
+  font-weight:800;
+  border:none; cursor:pointer;
+  padding:12px 18px; border-radius:14px;
+  color:#022;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: var(--shadow);
+}
+.contact-toggle .chev{ font-size:14px; opacity:.85 }
+
+/* Panel colapsable suave */
+.collapsible{
+  overflow:hidden;
+  max-height:0;               /* cerrado por defecto */
+  transition:max-height .35s ease;
+  border-radius:16px;
+}
+/* 👇 cuando está abierto, dejamos que crezca libremente */
+.collapsible.open{
+  overflow:visible;
+}
+
+
 /* ===== Modal ===== */
 .modal{ position:fixed; inset:0; display:none; }
 .modal[aria-hidden="false"]{ display:block; }
@@ -144,7 +172,7 @@ body{
 .modal .backdrop{
   position:absolute; inset:0;
   background:rgba(0,0,0,.36);
-  backdrop-filter:none;              /* <- quitar el borroso */
+  backdrop-filter:none;
   z-index:1000;
 }
 
@@ -160,7 +188,6 @@ body{
   box-shadow: 0 40px 140px rgba(0,0,0,.35);
   z-index:1001;
 }
-/* contenedor relativo para la X */
 .modal .sheet{ position: relative; }
 
 /* Botón Cerrar (X) SIEMPRE encima */
@@ -174,7 +201,7 @@ body{
   cursor:pointer;
   display:grid; place-items:center;
   box-shadow: var(--shadow);
-  z-index:2002;                     /* <<— clave */
+  z-index:2002;
 }
 
 /* Media y cuerpo del modal */
@@ -206,7 +233,6 @@ body{
   white-space:pre-wrap;
   word-break:break-word;
 }
-
 .md-desc::-webkit-scrollbar{ width:8px }
 .md-desc::-webkit-scrollbar-thumb{ background: rgba(0,0,0,.18); border-radius:8px }
 
@@ -234,16 +260,70 @@ body{
   outline:3px solid var(--accent); outline-offset:2px;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 900px){
-  .sheet{
-    grid-template-columns:1fr;
-    width:min(640px, 96vw);
-    max-height: 94vh;
-    overflow:auto;
-  }
-  .md-desc{
-    max-height: none;
-    overflow:visible;
-  }
+/* ===== Footer ===== */
+.footer{
+  border-top:1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.72));
+  backdrop-filter: blur(6px);
 }
+.footer-inner{
+  max-width:1200px; margin:0 auto; padding:20px 14px 30px;
+  text-align:center; color:#0f2233;
+}
+.footer-brand{
+  display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:6px;
+}
+.footer-brand img{
+  width:32px; height:32px; border-radius:8px; border:1px solid var(--line); background:#fff; box-shadow:var(--shadow);
+}
+.footer-brand span{ font-weight:800; letter-spacing:.2px }
+.footer-copy{ color:#2b3b4a; font-size:13px }
+
+/* ===== Pre-footer CTA (igual look que el footer) ===== */
+.prefooter-cta{
+  border-top:1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.72));
+  backdrop-filter: blur(6px);
+  color:#0f2233;
+}
+.prefooter-cta-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:28px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.cta-title{
+  margin:0;
+  font-weight:800;
+  letter-spacing:.2px;
+  font-size: clamp(20px, 3.2vw, 36px); /* grande, responsivo */
+}
+
+/* Botón grande al estilo del primario */
+.cta-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-weight:800;
+  padding:14px 26px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  color:#022;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: var(--shadow);
+  transition: transform .06s ease, filter .15s ease;
+}
+.cta-btn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+.cta-btn:active{ transform: translateY(0); }
+
+/* Responsive: en móvil el botón pasa abajo y ocupa ancho completo */
+@media (max-width: 760px){
+  .prefooter-cta-inner{ flex-direction:column; align-items:flex-start; }
+  .cta-btn{ width:100%; text-align:center; }
+}
+

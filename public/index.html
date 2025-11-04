@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Wholesale • Tienda</title>
+  <title>Ventasedc.com • Tienda</title>
   <link rel="stylesheet" href="/css/public.css"/>
   <style>
     html, body { overflow-x: hidden; }
@@ -45,7 +45,7 @@
         <a class="logo" href="/" aria-label="Inicio">
           <img id="brandLogoImg" class="logo-img" src="/img/logo.jpg" alt=""/>
         </a>
-        <span id="brandName" class="brand-name">Wholesale.com</span>
+        <span id="brandName" class="brand-name">Ventasedc.com</span>
       </div>
 
       <div class="searchbar">
@@ -61,44 +61,66 @@
     </div>
   </header>
 
-  <!-- ======= Contactos ARRIBA + Grid productos ======= -->
+  <!-- ======= Contenido principal: Grid primero ======= -->
   <main class="container">
-    <!-- Contactos (arriba, debajo de promos) -->
-    <section id="contactos" class="contacts">
+    <!-- Productos -->
+    <section id="grid" class="grid"></section>
+
+    <!-- Contactos (colapsable, abajo de todo) -->
+    <section id="contactos" class="contacts collapsible" hidden>
       <h2>Contactos</h2>
       <div id="contactsList" class="contacts-list"></div>
     </section>
-
-    <!-- Productos debajo -->
-    <section id="grid" class="grid"></section>
   </main>
 
+<!-- ===== Pre-footer CTA (franja completa con botón) ===== -->
+<section class="prefooter-cta" aria-label="Llamado a la acción">
+  <div class="prefooter-cta-inner">
+    <h3 class="cta-title">¿Buscas los mejores productos?</h3>
+    <!-- Usa el mismo id para que el JS actual siga funcionando -->
+    <button id="contactToggle" class="cta-btn" aria-expanded="false" aria-controls="contactos">
+      CONTÁCTANOS
+    </button>
+  </div>
+</section>
+
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img id="footerLogo" src="/img/logo.jpg" alt="" />
+        <span id="footerName">ventasedc.com</span>
+      </div>
+      <div class="footer-copy">© <span id="yearNow"></span> <span id="footerNameCopy">ventasedc.com</span>. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
   <!-- ======= Modal detalle producto ======= -->
-<div id="modal" class="modal" aria-hidden="true">
-  <div class="backdrop" id="modalBackdrop"></div>
-  <article class="sheet" role="dialog" aria-modal="true" aria-labelledby="mdTitle">
-    <button class="close" id="mdClose" aria-label="Cerrar">❌</button>
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="backdrop" id="modalBackdrop"></div>
+    <article class="sheet" role="dialog" aria-modal="true" aria-labelledby="mdTitle">
+      <button class="close" id="mdClose" aria-label="Cerrar">❌</button>
 
-    <div class="md-media">
-      <img id="mdImg" alt="Imagen del producto">
-      <div id="mdThumbs" class="md-thumbs"></div>
-    </div>
-
-    <div class="md-body">
-      <h3 id="mdTitle"></h3>
-      <div class="md-meta">
-        <span class="price" id="mdPrice"></span>
-        <span class="cat" id="mdCat"></span>
+      <div class="md-media">
+        <img id="mdImg" alt="Imagen del producto">
+        <div id="mdThumbs" class="md-thumbs"></div>
       </div>
-      <p id="mdDesc" class="md-desc"></p>
 
-      <div class="md-actions">
-        <a id="mdWhats" class="btn cta" target="_blank" rel="noopener">Comprar por WhatsApp</a>
+      <div class="md-body">
+        <h3 id="mdTitle"></h3>
+        <div class="md-meta">
+          <span class="price" id="mdPrice"></span>
+          <span class="cat" id="mdCat"></span>
+        </div>
+        <p id="mdDesc" class="md-desc"></p>
+
+        <div class="md-actions">
+          <a id="mdWhats" class="btn cta" target="_blank" rel="noopener">Comprar por WhatsApp</a>
+        </div>
       </div>
-    </div>
-  </article>
-</div>
-
+    </article>
+  </div>
 
   <script src="/js/public.js"></script>
 </body>

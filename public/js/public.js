@@ -34,6 +34,11 @@ async function loadBranding(){
     if (nameEl)  nameEl.textContent = name;
     if (promoEl) promoEl.textContent = tag;
     if (logoEl)  logoEl.src = logo;
+
+    // Footer branding
+    $('#footerLogo')?.setAttribute('src', logo);
+    $('#footerName') && ($('#footerName').textContent = name);
+    $('#footerNameCopy') && ($('#footerNameCopy').textContent = name);
   }catch{}
 }
 
@@ -96,7 +101,7 @@ async function openDetail(id){
   // Carga el DETALLE con galería
   const p = await fetchJSON(`/api/products/${id}`);
 
-  // 👇 ARREGLO: normalizamos a SOLO URLs
+  // Normalizamos a SOLO URLs
   const gallery = Array.isArray(p.images) && p.images.length
     ? p.images.map(img => (typeof img === 'string') ? img : (img.url || ''))
     : (p.image_url ? [p.image_url] : []);
@@ -146,20 +151,9 @@ mdClose?.addEventListener('click', closeDetail);
 mdBackdrop?.addEventListener('click', closeDetail);
 window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDetail(); });
 
-// ========= Carga =========
-async function loadProducts(){
-  const url = '/api/products' + (ACTIVE_CAT ? `?category=${encodeURIComponent(ACTIVE_CAT)}` : '');
-  PRODUCTS = await fetchJSON(url);
-  renderGrid();
-}
-
-async function boot(){
-  await loadBranding();
-  CATS = await fetchJSON('/api/categories'); renderCats();
-  await loadProducts();
-
-  CONTACTS = await fetchJSON('/api/contacts');
-  $('#contactsList').innerHTML = CONTACTS.filter(c=>c.visible).map(c => {
+// ========= Contactos (carga y toggle) =========
+function renderContacts(list){
+  $('#contactsList').innerHTML = list.filter(c=>c.visible).map(c => {
     const norm = u => u ? (/^https?:\/\//i.test(u)?u:`https://${String(u).replace(/^\/+/,'')}`) : '';
     const wa   = c.whatsapp ? `https://wa.me/${String(c.whatsapp).replace(/[^\d]/g,'')}` : '';
     const ig   = norm(c.instagram);
@@ -190,6 +184,63 @@ async function boot(){
         </div>
       </div>`;
   }).join('');
+}
+
+// Toggle accesible con animación de altura
+function setupContactsToggle(){
+  const btn = $('#contactToggle');
+  const panel = $('#contactos');
+  if (!btn || !panel) return;
+
+  const setOpen = (open) => {
+    btn.setAttribute('aria-expanded', String(open));
+    const chev = btn.querySelector('.chev');
+    chev && (chev.textContent = open ? '▴' : '▾');
+
+    if (open){
+      panel.hidden = false;
+      // Medimos altura y aplicamos transición
+      const h = panel.scrollHeight;
+      panel.style.maxHeight = h + 'px';
+      panel.classList.add('open');
+      // Scroll suave hacia la sección
+      panel.scrollIntoView({behavior:'smooth', block:'start'});
+    }else{
+      panel.style.maxHeight = panel.scrollHeight + 'px'; // fijamos base
+      requestAnimationFrame(()=>{
+        panel.classList.remove('open');
+        panel.style.maxHeight = '0px';
+      });
+      // ocultar tras la transición
+      setTimeout(()=>{ panel.hidden = true; }, 350);
+    }
+  };
+
+  btn.addEventListener('click', ()=>{
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    setOpen(!open);
+  });
+}
+
+async function loadProducts(){
+  const url = '/api/products' + (ACTIVE_CAT ? `?category=${encodeURIComponent(ACTIVE_CAT)}` : '');
+  PRODUCTS = await fetchJSON(url);
+  renderGrid();
+}
+
+async function boot(){
+  await loadBranding();
+  CATS = await fetchJSON('/api/categories'); renderCats();
+  await loadProducts();
+
+  // Contactos
+  CONTACTS = await fetchJSON('/api/contacts');
+  renderContacts(CONTACTS);
+  setupContactsToggle();
+
+  // Footer: año actual
+  const y = new Date().getFullYear();
+  $('#yearNow') && ($('#yearNow').textContent = y);
 }
 
 qEl?.addEventListener('input', renderGrid);
